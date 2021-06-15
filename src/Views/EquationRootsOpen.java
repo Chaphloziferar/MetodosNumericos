@@ -5,18 +5,22 @@
  */
 package Views;
 
+import Classes.TableFunctions;
+
 /**
  *
  * @author johnh
  */
 public class EquationRootsOpen extends javax.swing.JFrame {
-
-    /**
-     * Creates new form EquationRoots
-     */
+    
+    TableFunctions tb = new TableFunctions();
+    String headerBiseccion[] = {"IT", "Xi", "Xs", "Xm", "F(Xi)", "F(Xs)", "F(Xm)", "Error", "C.Parada"};
+    
     public EquationRootsOpen() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        tb.InicializarTabla(jtBiseccion, headerBiseccion);
     }
 
     /**
@@ -80,7 +84,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         tbMetodos = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtBiseccion = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -92,7 +96,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtReglafalsa = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -621,7 +625,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtBiseccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -632,7 +636,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtBiseccion);
 
         jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -733,7 +737,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
 
         tbMetodos.addTab("Metodo de Bisección", jPanel6);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtReglafalsa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -744,7 +748,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jtReglafalsa);
 
         jPanel9.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -1042,7 +1046,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolverActionPerformed
-        
+        tb.ComenzarTabla(jtBiseccion, Double.parseDouble(txtIntervaloA.getText()), Double.parseDouble(txtIntervaloB.getText()));
     }//GEN-LAST:event_btnResolverActionPerformed
 
     private void rbBisecciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBisecciónActionPerformed
@@ -1168,8 +1172,8 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jtBiseccion;
+    private javax.swing.JTable jtReglafalsa;
     private javax.swing.JRadioButton rbBisección;
     private javax.swing.JRadioButton rbReglaFalsa;
     private javax.swing.JTabbedPane tbMetodos;
