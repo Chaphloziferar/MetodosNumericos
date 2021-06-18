@@ -45,6 +45,11 @@ public class Main extends javax.swing.JFrame {
         btnAbiertos.setText("Metodos Abiertos");
 
         btnGauss.setText("Matrices Gauss");
+        btnGauss.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGaussActionPerformed(evt);
+            }
+        });
 
         btnJacobi.setText("Metodo Jacobi");
 
@@ -88,6 +93,13 @@ public class Main extends javax.swing.JFrame {
         ero.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCerradosActionPerformed
+
+    private void btnGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGaussActionPerformed
+        // TODO add your handling code here:
+        Eliminación_Gausseana eg = new Eliminación_Gausseana();
+        eg.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnGaussActionPerformed
 
     /**
      * @param args the command line arguments
