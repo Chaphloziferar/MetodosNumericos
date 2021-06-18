@@ -29,18 +29,68 @@ public class TableFunctions {
         table.setModel(model);
     }
     
-    public void ComenzarTabla(JTable table, double xi, double xs){
+    public void ComenzarTabla(JTable table){
         table.removeAll();
         model = (DefaultTableModel)table.getModel();
         model.setRowCount(0);
-        GenerarTabla(table, xi, xs);
     }
     
-    public void GenerarTabla(JTable table, double xi, double xs){
+    public void GenerarTablaBiseccion(JTable table, double valorI, double valorS, String funcion, Double restriccion){
+        int contador = 0;
+        boolean flag = true;
+        
+        Functions f = new Functions();
+        f.setFuncion(funcion);
+        
+        double xi = valorI, xs = valorS;
+        double xm = 0, fxi = 0, fxs = 0, fxm = 0, error = 0;
+        String cParada = "";
+        
         model = (DefaultTableModel)table.getModel();
-        if(model.getRowCount() == 0){
-            String data[] = {"1", String.valueOf(xi), String.valueOf(xs), "Xm", "F(Xi)", "F(Xs)", "F(Xm)", "Error", "C.Parada"};
-            model.addRow(data);
+        
+        while(flag){
+            
+            xm = (xi+xs) / 2;
+            
+            if(contador > 0){
+                error = Math.abs(xm - Double.valueOf(String.valueOf(model.getValueAt(contador - 1, 3))));
+                cParada = (error < restriccion) ? "Verdadero" : "Falso";
+            }
+            
+            f.setValorx(xi);
+            f.Evaluar();
+            fxi = f.getResultado();
+            
+            f.setValorx(xs);
+            f.Evaluar();
+            fxs = f.getResultado();
+            
+            f.setValorx(xm);
+            f.Evaluar();
+            fxm = f.getResultado();
+            
+            if(model.getRowCount() == 0){
+                String data[] = {String.valueOf(contador+1), String.valueOf(xi), String.valueOf(xs), String.valueOf(xm), String.valueOf(fxi), 
+                    String.valueOf(fxs), String.valueOf(fxm), String.valueOf(""), String.valueOf("")};
+                model.addRow(data);
+            }
+            else{
+                String data[] = {String.valueOf(contador+1), String.valueOf(xi), String.valueOf(xs), String.valueOf(xm), String.valueOf(fxi), 
+                    String.valueOf(fxs), String.valueOf(fxm), String.valueOf(error), String.valueOf(cParada)};
+                model.addRow(data);
+            }
+            
+            if(contador > 0){
+                if(cParada.equalsIgnoreCase("Verdadero")) flag = false;
+            }
+            
+            if(fxm < 0 && fxi < 0){
+                    xi = xm;
+                }
+            else{
+                xs = xm;
+            }
+            contador++;
         }
     }
 }
