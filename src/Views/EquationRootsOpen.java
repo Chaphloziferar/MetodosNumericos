@@ -5,7 +5,9 @@
  */
 package Views;
 
+import Classes.ExtraFunctions;
 import Classes.TableFunctions;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,15 +15,17 @@ import javax.swing.table.DefaultTableModel;
  * @author johnh
  */
 public class EquationRootsOpen extends javax.swing.JFrame {
-    
+
     TableFunctions tb = new TableFunctions();
     String headerBiseccion[] = {"IT", "Xi", "Xs", "Xm", "F(Xi)", "F(Xs)", "F(Xm)", "Error", "C.Parada"};
-    
+    String headerReglaFalsa[] = {"IT", "Xi", "Xs", "Xr", "F(Xi)", "F(Xs)", "F(Xr)", "Error", "C.Parada"};
+
     public EquationRootsOpen() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         tb.InicializarTabla(jtBiseccion, headerBiseccion);
+        tb.InicializarTabla(jtReglafalsa, headerReglaFalsa);
     }
 
     /**
@@ -95,19 +99,19 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         lblResultadoBiseccion = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        lblfuncionBiseccion = new javax.swing.JLabel();
+        lblFuncionBiseccion = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtReglafalsa = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblIntervaloReglaFalsa = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        lblResultadoReglaFalsa = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        lblFuncionReglaFalsa = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 732));
@@ -513,19 +517,34 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel2.setText("[ a =");
 
         txtIntervaloA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtIntervaloA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIntervaloAKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText(", b =");
 
         txtIntervaloB.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtIntervaloB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIntervaloBKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("]");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel5.setText("Tolerancia = ");
+        jLabel5.setText("Tolerancia = 10^");
 
         txtError.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtError.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtErrorKeyTyped(evt);
+            }
+        });
 
         btnResolver.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnResolver.setText("Resolver");
@@ -596,7 +615,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(79, 79, 79)))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
@@ -615,10 +634,10 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtIntervaloB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnResolver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -673,8 +692,8 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Raiz =");
 
-        lblfuncionBiseccion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblfuncionBiseccion.setText("0");
+        lblFuncionBiseccion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFuncionBiseccion.setText("0");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -686,7 +705,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblfuncionBiseccion))
+                        .addComponent(lblFuncionBiseccion))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -712,7 +731,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(lblfuncionBiseccion))
+                    .addComponent(lblFuncionBiseccion))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -770,14 +789,14 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("F(x) =");
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel16.setText("0");
+        lblIntervaloReglaFalsa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblIntervaloReglaFalsa.setText("0");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setText("Intervalo :");
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel18.setText("0");
+        lblResultadoReglaFalsa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblResultadoReglaFalsa.setText("0");
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel19.setText("Resultado Obtenido:");
@@ -785,8 +804,8 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel20.setText("Raiz =");
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel21.setText("0");
+        lblFuncionReglaFalsa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFuncionReglaFalsa.setText("0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -798,7 +817,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel21))
+                        .addComponent(lblFuncionReglaFalsa))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -807,12 +826,12 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                                 .addGap(15, 15, 15)
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel16))
+                                .addComponent(lblIntervaloReglaFalsa))
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel18))
+                                .addComponent(lblResultadoReglaFalsa))
                             .addComponent(jLabel14))))
                 .addContainerGap(231, Short.MAX_VALUE))
         );
@@ -824,17 +843,17 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel21))
+                    .addComponent(lblFuncionReglaFalsa))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jLabel16))
+                    .addComponent(lblIntervaloReglaFalsa))
                 .addGap(27, 27, 27)
                 .addComponent(jLabel19)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(jLabel18))
+                    .addComponent(lblResultadoReglaFalsa))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -1058,36 +1077,66 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolverActionPerformed
-        if(rbBisección.isSelected()){
-            tb.ComenzarTabla(jtBiseccion);
-            tb.GenerarTablaBiseccion(jtBiseccion, Double.parseDouble(txtIntervaloA.getText()), Double.parseDouble(txtIntervaloB.getText()), 
-                    txtEcuacion.getText(), Double.parseDouble(txtError.getText()));
-        
-            lblfuncionBiseccion.setText(txtEcuacion.getText());
-            lblIntervaloBiseccion.setText("["+ txtIntervaloA.getText() + ", " + txtIntervaloB.getText() +"]");
-        
-            DefaultTableModel model = (DefaultTableModel)jtBiseccion.getModel();
-            lblResultadoBiseccion.setText(String.valueOf(model.getValueAt(model.getRowCount() - 1, 3)));
+        ExtraFunctions f = new ExtraFunctions();
+        double restriccion = Math.pow(10, Double.parseDouble(txtError.getText()));
+        System.out.println(restriccion);
+
+        if (!f.isEmpty(txtEcuacion) && !f.isEmpty(txtIntervaloA) && !f.isEmpty(txtIntervaloB) && !f.isEmpty(txtError)) {
+            if (Double.parseDouble(txtIntervaloA.getText()) < Double.parseDouble(txtIntervaloB.getText())) {
+                if (rbBisección.isSelected()) {
+                    try {
+                        // Tabla de Biseccion
+                        tb.ComenzarTabla(jtBiseccion);
+                        tb.GenerarTablaBiseccion(jtBiseccion, Double.parseDouble(txtIntervaloA.getText()), Double.parseDouble(txtIntervaloB.getText()),
+                                txtEcuacion.getText(), restriccion);
+
+                        lblFuncionBiseccion.setText(txtEcuacion.getText());
+                        lblIntervaloBiseccion.setText("[" + txtIntervaloA.getText() + ", " + txtIntervaloB.getText() + "]");
+
+                        DefaultTableModel modelBiseccion = (DefaultTableModel) jtBiseccion.getModel();
+                        lblResultadoBiseccion.setText(String.valueOf(modelBiseccion.getValueAt(modelBiseccion.getRowCount() - 1, 3)));
+                    } catch (Exception e) {
+                    }
+                } else {
+                    try {
+                        // Tabla de Regla Falsa
+                        tb.ComenzarTabla(jtReglafalsa);
+                        tb.GenerarTablaReglaFalsa(jtReglafalsa, Double.parseDouble(txtIntervaloA.getText()), Double.parseDouble(txtIntervaloB.getText()),
+                                txtEcuacion.getText(), restriccion);
+
+                        lblFuncionReglaFalsa.setText(txtEcuacion.getText());
+                        lblIntervaloReglaFalsa.setText("[" + txtIntervaloA.getText() + ", " + txtIntervaloB.getText() + "]");
+
+                        DefaultTableModel modelReglaFalsa = (DefaultTableModel) jtReglafalsa.getModel();
+                        lblResultadoReglaFalsa.setText(String.valueOf(modelReglaFalsa.getValueAt(modelReglaFalsa.getRowCount() - 1, 3)));
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Debe Ingresar intervalos validos", "Datos incorrectos", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos", "Datos incompletos", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnResolverActionPerformed
 
     private void rbBisecciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBisecciónActionPerformed
-        if(rbBisección.isSelected()){
+        if (rbBisección.isSelected()) {
             this.tbMetodos.setSelectedIndex(0);
         }
     }//GEN-LAST:event_rbBisecciónActionPerformed
 
     private void rbReglaFalsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbReglaFalsaActionPerformed
-        if(rbReglaFalsa.isSelected()){
+        if (rbReglaFalsa.isSelected()) {
             this.tbMetodos.setSelectedIndex(1);
         }
     }//GEN-LAST:event_rbReglaFalsaActionPerformed
 
     private void tbMetodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMetodosMouseClicked
-        if(this.tbMetodos.getSelectedIndex() == 0){
+        if (this.tbMetodos.getSelectedIndex() == 0) {
             this.rbBisección.setSelected(true);
-        }
-        else{
+        } else {
             this.rbReglaFalsa.setSelected(true);
         }
     }//GEN-LAST:event_tbMetodosMouseClicked
@@ -1097,6 +1146,27 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         main.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void txtIntervaloAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIntervaloAKeyTyped
+        char c = evt.getKeyChar();
+        
+        if(((c < '0') || (c > '9')) && (c != '\b') && (c != 45))
+            evt.consume();
+    }//GEN-LAST:event_txtIntervaloAKeyTyped
+
+    private void txtIntervaloBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIntervaloBKeyTyped
+        char c = evt.getKeyChar();
+        
+        if(((c < '0') || (c > '9')) && (c != '\b') && (c != 45))
+            evt.consume();
+    }//GEN-LAST:event_txtIntervaloBKeyTyped
+
+    private void txtErrorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtErrorKeyTyped
+        char c = evt.getKeyChar();
+        
+        if(((c < '0') || (c > '9')) && (c != '\b') && (c != 45))
+            evt.consume();
+    }//GEN-LAST:event_txtErrorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -1174,13 +1244,10 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1200,9 +1267,12 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jtBiseccion;
     private javax.swing.JTable jtReglafalsa;
+    private javax.swing.JLabel lblFuncionBiseccion;
+    private javax.swing.JLabel lblFuncionReglaFalsa;
     private javax.swing.JLabel lblIntervaloBiseccion;
+    private javax.swing.JLabel lblIntervaloReglaFalsa;
     private javax.swing.JLabel lblResultadoBiseccion;
-    private javax.swing.JLabel lblfuncionBiseccion;
+    private javax.swing.JLabel lblResultadoReglaFalsa;
     private javax.swing.JRadioButton rbBisección;
     private javax.swing.JRadioButton rbReglaFalsa;
     private javax.swing.JTabbedPane tbMetodos;
