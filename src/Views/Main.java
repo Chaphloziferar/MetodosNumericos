@@ -16,6 +16,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -43,6 +44,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnAbiertos.setText("Metodos Abiertos");
+        btnAbiertos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbiertosActionPerformed(evt);
+            }
+        });
 
         btnGauss.setText("Matrices Gauss");
         btnGauss.addActionListener(new java.awt.event.ActionListener() {
@@ -89,10 +95,16 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerradosActionPerformed
+        EquationRootsClose erc = new EquationRootsClose();
+        erc.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCerradosActionPerformed
+
+    private void btnAbiertosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbiertosActionPerformed
         EquationRootsOpen ero = new EquationRootsOpen();
         ero.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_btnCerradosActionPerformed
+    }//GEN-LAST:event_btnAbiertosActionPerformed
 
     private void btnGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGaussActionPerformed
         // TODO add your handling code here:

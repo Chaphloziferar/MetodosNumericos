@@ -5,18 +5,27 @@
  */
 package Views;
 
+import Classes.ExtraFunctions;
+import Classes.TableFunctions;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author johnh
  */
 public class EquationRootsOpen extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EquationRoots
-     */
+    TableFunctions tb = new TableFunctions();
+    String headerSecante[] = {"IT", "Xi", "F(Xi)", "Error", "C.Parada"};
+    String headerNewtonRaphson[] = {"IT", "Xn", "F(Xn)", "F'(Xn)", "Error", "C.Parada"};
+
     public EquationRootsOpen() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        tb.InicializarTabla(jtSecante, headerSecante);
+        tb.InicializarTabla(jtNewtonRaphson, headerNewtonRaphson);
     }
 
     /**
@@ -74,37 +83,37 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtError = new javax.swing.JTextField();
         btnResolver = new javax.swing.JButton();
-        rbBisección = new javax.swing.JRadioButton();
-        rbReglaFalsa = new javax.swing.JRadioButton();
+        rbSecante = new javax.swing.JRadioButton();
+        rbNewtonRaphson = new javax.swing.JRadioButton();
+        btnSalir = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         tbMetodos = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtSecante = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblIntervaloSecante = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lblResultadoSecante = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        lblFuncionSecante = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtNewtonRaphson = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblIntervaloNewtonRaphson = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        lblResultadoNewtonRaphson = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        lblFuncionNewtonRaphson = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 732));
         setResizable(false);
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -504,22 +513,37 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel1.setText("Intervalos:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("[ a =");
+        jLabel2.setText("[ x0 =");
 
         txtIntervaloA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtIntervaloA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIntervaloAKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText(", b =");
+        jLabel3.setText(", x1 =");
 
         txtIntervaloB.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtIntervaloB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIntervaloBKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("]");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel5.setText("Tolerancia = ");
+        jLabel5.setText("Tolerancia = 10^");
 
         txtError.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtError.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtErrorKeyTyped(evt);
+            }
+        });
 
         btnResolver.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnResolver.setText("Resolver");
@@ -529,22 +553,30 @@ public class EquationRootsOpen extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(rbBisección);
-        rbBisección.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rbBisección.setSelected(true);
-        rbBisección.setText("Metodo de Biseccion");
-        rbBisección.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rbSecante);
+        rbSecante.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rbSecante.setSelected(true);
+        rbSecante.setText("Metodo de la Secante");
+        rbSecante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbBisecciónActionPerformed(evt);
+                rbSecanteActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(rbReglaFalsa);
-        rbReglaFalsa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rbReglaFalsa.setText("Metodo de Regla Falsa");
-        rbReglaFalsa.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rbNewtonRaphson);
+        rbNewtonRaphson.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rbNewtonRaphson.setText("Metodo de Newton-Raphson");
+        rbNewtonRaphson.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbReglaFalsaActionPerformed(evt);
+                rbNewtonRaphsonActionPerformed(evt);
+            }
+        });
+
+        btnSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -553,11 +585,15 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(59, 59, 59)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
+                        .addComponent(btnResolver, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(rbBisección)
+                            .addComponent(rbSecante)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
@@ -574,25 +610,21 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                                 .addComponent(jLabel4))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
-                                .addComponent(rbReglaFalsa))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(btnResolver, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(rbNewtonRaphson))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                        .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbBisección)
-                    .addComponent(rbReglaFalsa))
+                    .addComponent(rbSecante)
+                    .addComponent(rbNewtonRaphson))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -601,16 +633,18 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtIntervaloB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(18, 18, 18)
-                .addComponent(btnResolver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnResolver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 421, -1, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 421, 510, -1));
 
         jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -621,7 +655,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtSecante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -632,24 +666,24 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtSecante);
 
         jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Se aplicó el método de Bisección para encontrar la solución de:");
+        jLabel8.setText("Se aplicó el método de la Secante para encontrar la solución de:");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("F(x) =");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("0");
+        lblIntervaloSecante.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblIntervaloSecante.setText("0");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("Intervalo :");
+        jLabel9.setText("Valores Iniciales:");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel10.setText("0");
+        lblResultadoSecante.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblResultadoSecante.setText("0");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Resultado Obtenido:");
@@ -657,8 +691,8 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Raiz =");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("0");
+        lblFuncionSecante.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFuncionSecante.setText("0");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -670,7 +704,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel13))
+                        .addComponent(lblFuncionSecante))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -679,12 +713,12 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                                 .addGap(15, 15, 15)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel6))
+                                .addComponent(lblIntervaloSecante))
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10))
+                                .addComponent(lblResultadoSecante))
                             .addComponent(jLabel8))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -696,17 +730,17 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel13))
+                    .addComponent(lblFuncionSecante))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel6))
+                    .addComponent(lblIntervaloSecante))
                 .addGap(27, 27, 27)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel10))
+                    .addComponent(lblResultadoSecante))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -731,9 +765,9 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        tbMetodos.addTab("Metodo de Bisección", jPanel6);
+        tbMetodos.addTab("Metodo de la Secante", jPanel6);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtNewtonRaphson.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -744,24 +778,24 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jtNewtonRaphson);
 
         jPanel9.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Se aplicó el método de Regla Falsa para encontrar la solución de:");
+        jLabel14.setText("Se aplicó el método de Newton-Rapshon para encontrar la solución de:");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("F(x) =");
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel16.setText("0");
+        lblIntervaloNewtonRaphson.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblIntervaloNewtonRaphson.setText("0");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel17.setText("Intervalo :");
+        jLabel17.setText("Valor Inicial:");
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel18.setText("0");
+        lblResultadoNewtonRaphson.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblResultadoNewtonRaphson.setText("0");
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel19.setText("Resultado Obtenido:");
@@ -769,8 +803,8 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel20.setText("Raiz =");
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel21.setText("0");
+        lblFuncionNewtonRaphson.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFuncionNewtonRaphson.setText("0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -782,7 +816,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel21))
+                        .addComponent(lblFuncionNewtonRaphson))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -791,14 +825,14 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                                 .addGap(15, 15, 15)
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel16))
+                                .addComponent(lblIntervaloNewtonRaphson))
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel18))
+                                .addComponent(lblResultadoNewtonRaphson))
                             .addComponent(jLabel14))))
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -808,17 +842,17 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel21))
+                    .addComponent(lblFuncionNewtonRaphson))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jLabel16))
+                    .addComponent(lblIntervaloNewtonRaphson))
                 .addGap(27, 27, 27)
                 .addComponent(jLabel19)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(jLabel18))
+                    .addComponent(lblResultadoNewtonRaphson))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -843,7 +877,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        tbMetodos.addTab("Metodo de Regla Falsa", jPanel7);
+        tbMetodos.addTab("Metodo de Newton-Raphson", jPanel7);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1042,29 +1076,107 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResolverActionPerformed
-        
+        ExtraFunctions f = new ExtraFunctions();
+        double restriccion = Math.pow(10, Double.parseDouble(txtError.getText()));
+
+        boolean validacion = false;
+
+        if (rbNewtonRaphson.isSelected()) {
+            validacion = true;
+        } else {
+            if (!f.isEmpty(txtIntervaloB)) {
+                validacion = true;
+            }
+        }
+
+        if (!f.isEmpty(txtEcuacion) && !f.isEmpty(txtIntervaloA) && validacion && !f.isEmpty(txtError)) {
+            if (rbSecante.isSelected()) {
+                if (Double.parseDouble(txtIntervaloA.getText()) < Double.parseDouble(txtIntervaloB.getText())) {
+                    try {
+                        // Tabla de la Secante
+                        tb.ComenzarTabla(jtSecante);
+                        tb.GenerarTablaSecante(jtSecante, Double.parseDouble(txtIntervaloA.getText()), Double.parseDouble(txtIntervaloB.getText()),
+                                txtEcuacion.getText(), restriccion);
+
+                        lblFuncionSecante.setText(txtEcuacion.getText());
+                        lblIntervaloSecante.setText("X0 = " + txtIntervaloA.getText() + " , X1 = " + txtIntervaloB.getText());
+
+                        DefaultTableModel modelSecante = (DefaultTableModel) jtSecante.getModel();
+                        lblResultadoSecante.setText(String.valueOf(modelSecante.getValueAt(modelSecante.getRowCount() - 1, 1)));
+                    } catch (Exception e) {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Debe Ingresar intervalos validos", "Datos incorrectos", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                try {
+                    // Tabla de Newton-Raphson
+                    tb.ComenzarTabla(jtNewtonRaphson);
+                    tb.GenerarTablaNewtonRaphson(jtNewtonRaphson, Double.parseDouble(txtIntervaloA.getText()), txtEcuacion.getText(), restriccion);
+
+                    lblFuncionNewtonRaphson.setText(txtEcuacion.getText());
+                    lblIntervaloNewtonRaphson.setText("X0 = " + txtIntervaloA.getText());
+
+                    DefaultTableModel modelReglaFalsa = (DefaultTableModel) jtNewtonRaphson.getModel();
+                    lblResultadoNewtonRaphson.setText(String.valueOf(modelReglaFalsa.getValueAt(modelReglaFalsa.getRowCount() - 1, 1)));
+                } catch (Exception e) {
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos", "Datos incompletos", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnResolverActionPerformed
 
-    private void rbBisecciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBisecciónActionPerformed
-        if(rbBisección.isSelected()){
+    private void rbSecanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSecanteActionPerformed
+        if (rbSecante.isSelected()) {
             this.tbMetodos.setSelectedIndex(0);
+            this.txtIntervaloB.setEnabled(true);
         }
-    }//GEN-LAST:event_rbBisecciónActionPerformed
+    }//GEN-LAST:event_rbSecanteActionPerformed
 
-    private void rbReglaFalsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbReglaFalsaActionPerformed
-        if(rbReglaFalsa.isSelected()){
+    private void rbNewtonRaphsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNewtonRaphsonActionPerformed
+        if (rbNewtonRaphson.isSelected()) {
             this.tbMetodos.setSelectedIndex(1);
+            this.txtIntervaloB.setEnabled(false);
         }
-    }//GEN-LAST:event_rbReglaFalsaActionPerformed
+    }//GEN-LAST:event_rbNewtonRaphsonActionPerformed
 
     private void tbMetodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMetodosMouseClicked
-        if(this.tbMetodos.getSelectedIndex() == 0){
-            this.rbBisección.setSelected(true);
-        }
-        else{
-            this.rbReglaFalsa.setSelected(true);
+        if (this.tbMetodos.getSelectedIndex() == 0) {
+            this.rbSecante.setSelected(true);
+            this.txtIntervaloB.setEnabled(true);
+        } else {
+            this.rbNewtonRaphson.setSelected(true);
+            this.txtIntervaloB.setEnabled(false);
         }
     }//GEN-LAST:event_tbMetodosMouseClicked
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        Main main = new Main();
+        main.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void txtIntervaloAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIntervaloAKeyTyped
+        char c = evt.getKeyChar();
+
+        if (((c < '0') || (c > '9')) && (c != '\b') && (c != 45) && ((c != '.') || (txtIntervaloA.getText().contains("."))))
+            evt.consume();
+    }//GEN-LAST:event_txtIntervaloAKeyTyped
+
+    private void txtIntervaloBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIntervaloBKeyTyped
+        char c = evt.getKeyChar();
+
+        if (((c < '0') || (c > '9')) && (c != '\b') && (c != 45) && ((c != '.') || (txtIntervaloA.getText().contains("."))))
+            evt.consume();
+    }//GEN-LAST:event_txtIntervaloBKeyTyped
+
+    private void txtErrorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtErrorKeyTyped
+        char c = evt.getKeyChar();
+
+        if (((c < '0') || (c > '9')) && (c != '\b') && (c != 45))
+            evt.consume();
+    }//GEN-LAST:event_txtErrorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -1091,6 +1203,20 @@ public class EquationRootsOpen extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EquationRootsOpen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -1127,6 +1253,7 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     private javax.swing.JButton btnRaiz;
     private javax.swing.JButton btnResolver;
     private javax.swing.JButton btnRestar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSeis;
     private javax.swing.JButton btnSeno;
     private javax.swing.JButton btnSiete;
@@ -1137,23 +1264,17 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     private javax.swing.JButton btnX;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1168,10 +1289,16 @@ public class EquationRootsOpen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JRadioButton rbBisección;
-    private javax.swing.JRadioButton rbReglaFalsa;
+    private javax.swing.JTable jtNewtonRaphson;
+    private javax.swing.JTable jtSecante;
+    private javax.swing.JLabel lblFuncionNewtonRaphson;
+    private javax.swing.JLabel lblFuncionSecante;
+    private javax.swing.JLabel lblIntervaloNewtonRaphson;
+    private javax.swing.JLabel lblIntervaloSecante;
+    private javax.swing.JLabel lblResultadoNewtonRaphson;
+    private javax.swing.JLabel lblResultadoSecante;
+    private javax.swing.JRadioButton rbNewtonRaphson;
+    private javax.swing.JRadioButton rbSecante;
     private javax.swing.JTabbedPane tbMetodos;
     private javax.swing.JTextField txtEcuacion;
     private javax.swing.JTextField txtError;
