@@ -28,6 +28,8 @@ public class TableFunctions {
 
         model = new DefaultTableModel(data, header);
         table.setModel(model);
+        
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
     public void ComenzarTabla(JTable table) {
@@ -161,6 +163,145 @@ public class TableFunctions {
                 }
 
                 if (Double.isNaN(xr)) {
+                    throw new Exception();
+                }
+
+                contador++;
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Intervalos no validos", "Datos incorrectos", JOptionPane.ERROR_MESSAGE);
+            this.ComenzarTabla(table);
+        }
+    }
+    
+    public void GenerarTablaSecante(JTable table, double valorI, double valorS, String funcion, Double restriccion) {
+        int contador = 0;
+        boolean flag = true;
+
+        Functions f = new Functions();
+        f.setFuncion(funcion);
+
+        double xi = valorI, xs = valorS;
+        double xn = 0, fxi = 0, fxs = 0, fxn = 0, error = 0;
+        String cParada = "";
+
+        model = (DefaultTableModel) table.getModel();
+        try {
+            while (flag) {
+                
+                f.setValorx(xi);
+                f.Evaluar();
+                fxi = f.getResultado();
+
+                f.setValorx(xs);
+                f.Evaluar();
+                fxs = f.getResultado();
+
+                xn = xs - ((fxs * (xs - xi)) / (fxs - fxi));
+
+                f.setValorx(xn);
+                f.Evaluar();
+                fxn = f.getResultado();
+
+                if (contador > 1) {
+                    error = Math.abs(xn - Double.valueOf(String.valueOf(model.getValueAt(contador - 1, 1))));
+                    cParada = (error < restriccion) ? "Verdadero" : "Falso";
+                }
+
+                if (model.getRowCount() == 0) {
+                    String data[] = {String.valueOf(contador + 1), String.valueOf(xi), String.valueOf(fxi), String.valueOf(""), String.valueOf("")};
+                    model.addRow(data);
+                    
+                    contador++;
+                    
+                    error = Math.abs(xn - Double.valueOf(String.valueOf(model.getValueAt(contador - 1, 1))));
+                    cParada = (error < restriccion) ? "Verdadero" : "Falso";
+                    
+                    String data2[] = {String.valueOf(contador + 1), String.valueOf(xs), String.valueOf(fxs), String.valueOf(error), cParada};
+                    model.addRow(data2);
+                } else {
+                    String data[] = {String.valueOf(contador + 1), String.valueOf(xn), String.valueOf(fxn), String.valueOf(error), String.valueOf(cParada)};
+                    model.addRow(data);
+                }
+
+                if (contador > 1) {
+                    if (cParada.equalsIgnoreCase("Verdadero")) {
+                        flag = false;
+                    }
+                }
+
+                if (Double.isNaN(xn)) {
+                    throw new Exception();
+                }
+                
+                xi = xs;
+                xs = xn;
+                xn = 0;
+
+                contador++;
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Intervalos no validos", "Datos incorrectos", JOptionPane.ERROR_MESSAGE);
+            this.ComenzarTabla(table);
+        }
+    }
+    
+    public void GenerarTablaNewtonRaphson(JTable table, double valorI, String funcion, Double restriccion) {
+        int contador = 0;
+        boolean flag = true;
+
+        Functions f = new Functions();
+        f.setFuncion(funcion);
+        
+        Derivatives d = new Derivatives();
+        d.setFuncionADerivar(funcion);
+        d.derivar();
+        
+        Functions fp = new Functions();
+        fp.setFuncion(d.getFuncionDerivada());
+
+        double xn = valorI;
+        double fxn = 0, fxnp = 0, error = 0;
+        String cParada = "";
+
+        model = (DefaultTableModel) table.getModel();
+        try {
+            while (flag) {
+                
+                if(contador > 0){
+                    xn = xn - (fxn / fxnp);
+                }
+                
+                f.setValorx(xn);
+                f.Evaluar();
+                fxn = f.getResultado();
+                
+                fp.setValorx(xn);
+                fp.Evaluar();
+                fxnp = fp.getResultado();
+
+                if (contador > 0) {
+                    error = Math.abs(xn - Double.valueOf(String.valueOf(model.getValueAt(contador - 1, 1))));
+                    cParada = (error < restriccion) ? "Verdadero" : "Falso";
+                }
+
+                if (model.getRowCount() == 0) {
+                    String data[] = {String.valueOf(contador + 1), String.valueOf(xn), String.valueOf(fxn), String.valueOf(fxnp), String.valueOf(""), String.valueOf("")};
+                    model.addRow(data);
+                } else {
+                    String data[] = {String.valueOf(contador + 1), String.valueOf(xn), String.valueOf(fxn), String.valueOf(fxnp), String.valueOf(error), String.valueOf(cParada)};
+                    model.addRow(data);
+                }
+
+                if (contador > 0) {
+                    if (cParada.equalsIgnoreCase("Verdadero")) {
+                        flag = false;
+                    }
+                }
+
+                if (Double.isNaN(xn)) {
                     throw new Exception();
                 }
 

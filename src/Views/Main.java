@@ -44,6 +44,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnAbiertos.setText("Metodos Abiertos");
+        btnAbiertos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbiertosActionPerformed(evt);
+            }
+        });
 
         btnGauss.setText("Matrices Gauss");
 
@@ -85,10 +90,16 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerradosActionPerformed
+        EquationRootsClose erc = new EquationRootsClose();
+        erc.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCerradosActionPerformed
+
+    private void btnAbiertosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbiertosActionPerformed
         EquationRootsOpen ero = new EquationRootsOpen();
         ero.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_btnCerradosActionPerformed
+    }//GEN-LAST:event_btnAbiertosActionPerformed
 
     /**
      * @param args the command line arguments
