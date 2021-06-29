@@ -35,12 +35,13 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
     double B[];
         
     private static DecimalFormat df = new DecimalFormat("0.0000");
-     private static DecimalFormat gf = new DecimalFormat("0.0");
+    private static DecimalFormat gf = new DecimalFormat("0.0");
     
     public Eliminación_Gausseana() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.pack();
+        btnCalcular.setEnabled(false);
         
         ((DefaultTableCellRenderer) Tabla_Matriz.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         ((DefaultTableCellRenderer) Tabla_Resultado.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
@@ -65,6 +66,7 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         Tabla_Iteraciones.setModel(iteracion);
         Tabla_Resultado.setModel(resultado);
         
+        this.setTitle("Eliminación Gausseana");
     }
    
     //Inicialización de las matrices
@@ -89,7 +91,7 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         BtnPreparar = new javax.swing.JButton();
         txtOrden = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        Ejecutar = new javax.swing.JButton();
+        btnCalcular = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -121,19 +123,19 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Orden de la matriz");
 
-        Ejecutar.setText("Ejecutar");
-        Ejecutar.addFocusListener(new java.awt.event.FocusAdapter() {
+        btnCalcular.setText("Calcular");
+        btnCalcular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                EjecutarFocusGained(evt);
+                btnCalcularFocusGained(evt);
             }
         });
-        Ejecutar.addActionListener(new java.awt.event.ActionListener() {
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EjecutarActionPerformed(evt);
+                btnCalcularActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Regresar");
+        jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -145,17 +147,17 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(txtOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnPreparar)
-                .addGap(18, 18, 18)
-                .addComponent(Ejecutar)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(42, 42, 42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +167,7 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
                     .addComponent(txtOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnPreparar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Ejecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -283,27 +285,27 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(195, 195, 195)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(161, 161, 161)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -319,12 +321,14 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -334,11 +338,11 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         // TODO add your handling code here:
         startTable();
         rango = Integer.parseInt(txtOrden.getText());
-        
+        btnCalcular.setEnabled(true);
         PrepararMatrices();
     }//GEN-LAST:event_BtnPrepararActionPerformed
 
-    private void EjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutarActionPerformed
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         // TODO add your handling code here:
         A= new double[rango][rango];
         B = new double[rango];
@@ -357,7 +361,7 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         
         eliminacionGauss(A, B);
         }   
-    }//GEN-LAST:event_EjecutarActionPerformed
+    }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void txtOrdenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOrdenKeyTyped
         // TODO add your handling code here:
@@ -388,14 +392,14 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Tabla_ResultadoFocusGained
 
-    private void EjecutarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_EjecutarFocusGained
+    private void btnCalcularFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnCalcularFocusGained
         // TODO add your handling code here:
         if (Tabla_Matriz.isEditing()) {
             Tabla_Matriz.getCellEditor().stopCellEditing();
         }else if (Tabla_Resultado.isEditing()) {
             Tabla_Resultado.getCellEditor().stopCellEditing();
         }
-    }//GEN-LAST:event_EjecutarFocusGained
+    }//GEN-LAST:event_btnCalcularFocusGained
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -449,10 +453,10 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnPreparar;
-    private javax.swing.JButton Ejecutar;
     private javax.swing.JTable Tabla_Iteraciones;
     private javax.swing.JTable Tabla_Matriz;
     private javax.swing.JTable Tabla_Resultado;
+    private javax.swing.JButton btnCalcular;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -466,74 +470,69 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //Trasformacion de la matriz aumentada
-    public static double[][] aumentada(double[][] A, double[] b){
-	int n = A.length;
-        int m = b.length;
-        double[][] Ab = new double[n][n+1];
-        if(n!=m){
-        	System.out.println("no es posible hacer la matriz aumentada A|b debido que"
-              		+ "las filas de A es diferente al numero de elementos de b");
-        }else{
-        	for(int i=0;i<n;i++){
-                	for(int j=0;j<n+1;j++){
-                    		if(j==n){
-                        		Ab[i][j] = b[i];
-                    		}else{
-                    			Ab[i][j] = A[i][j];
-                    		}
-                	}
+public static double[][] aumentada(double[][] A, double[] b){
+    int n = A.length;
+    int m = b.length;
+    double[][] Ab = new double[n][n+1];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n+1;j++){
+                if(j==n){
+                    Ab[i][j] = b[i];
+                }else{
+                    Ab[i][j] = A[i][j];
             	}
+            }
         }
-        return Ab;
+    return Ab;
 }
 
     
 //Metodo de Gauss aplicado    
 public void eliminacionGauss(double[][] A, double[] b){
-	int n = A.length;
-        double[][] Ab = aumentada(A,b);
-        double m = 0;
+    int n = A.length;
+    double[][] Ab = aumentada(A,b);
+    double m = 0;
         //Matriz aumentada
         
-        iteracion.setValueAt("Iteracion ", 0, 0);
-        iteracion.setValueAt(1, 0, 1);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n+1; j++) {
-                iteracion.setValueAt(gf.format(Ab[i][j]), (i+1), j);
-            }
-        }
-        
-        //Iteraciones de la Matriz
-        for(int k=0;k<n-1;k++){
-            iteracion.setValueAt("Iteracion ", ((n+2)*(k+1)), 0);
-            iteracion.setValueAt((k+2), ((n+2)*(k+1)), 1);
-            for(int i=k+1;i<n;i++){
-                m = Ab[i][k] / Ab[k][k];
-                for(int j=k;j<n+1;j++){
-                    Ab[i][j] = (double) Ab[i][j] - m*Ab[k][j];                                    
-                }
-            }
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n+1; j++) {
-                    iteracion.setValueAt(gf.format(Ab[i][j]), (((n+2)*(k+1))+i+1), j);
-                }
-            }
-        }
-                
-        //Valores de las X
-        double suma;
-        double[] x = new double[n];
-        for(int i=n-1;i>=0;i--){
-            suma=0;
-            for(int j=i+1;j<n;j++){
-                suma = suma + Ab[i][j]*x[j];
-            }
-            x[i] = (Ab[i][n] - suma)/Ab[i][i];
-        }
-        for (int i = 0; i < x.length; i++) {
-            iteracion.setValueAt("X"+(i+1)+" = "+df.format(x[i]), (((n+2)*(n))-1), i);
+    iteracion.setValueAt("Iteracion ", 0, 0);
+    iteracion.setValueAt(1, 0, 1);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n+1; j++) {
+            iteracion.setValueAt(gf.format(Ab[i][j]), (i+1), j);
         }
     }
+        
+    //Iteraciones de la Matriz
+    for(int k=0;k<n-1;k++){
+        iteracion.setValueAt("Iteracion ", ((n+2)*(k+1)), 0);
+        iteracion.setValueAt((k+2), ((n+2)*(k+1)), 1);
+        for(int i=k+1;i<n;i++){
+            m = Ab[i][k] / Ab[k][k];
+            for(int j=k;j<n+1;j++){
+                Ab[i][j] = (double) Ab[i][j] - m*Ab[k][j];                                    
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n+1; j++) {
+                iteracion.setValueAt(gf.format(Ab[i][j]), (((n+2)*(k+1))+i+1), j);
+            }
+        }
+    }
+                
+    //Valores de las X
+    double suma;
+    double[] x = new double[n];
+    for(int i=n-1;i>=0;i--){
+        suma=0;
+        for(int j=i+1;j<n;j++){
+            suma = suma + Ab[i][j]*x[j];
+        }
+        x[i] = (Ab[i][n] - suma)/Ab[i][i];
+    }
+    for (int i = 0; i < x.length; i++) {
+        iteracion.setValueAt("X"+(i+1)+" = "+df.format(x[i]), (((n+2)*(n))-1), i);
+    }
+}
 
 //Validacion de que no halla elementos null en la matriz principal
 public boolean Matrizdatosllena(){

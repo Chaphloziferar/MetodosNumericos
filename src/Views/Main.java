@@ -17,6 +17,8 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        this.setTitle("Menu Principal");
     }
 
     /**
@@ -58,8 +60,18 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnJacobi.setText("Metodo Jacobi");
+        btnJacobi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJacobiActionPerformed(evt);
+            }
+        });
 
         btnSeidel.setText("Metodo Gaus-Seidel");
+        btnSeidel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeidelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,6 +124,20 @@ public class Main extends javax.swing.JFrame {
         eg.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnGaussActionPerformed
+
+    private void btnSeidelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeidelActionPerformed
+        // TODO add your handling code here:
+        Gauss_Seidel gs = new Gauss_Seidel();
+        gs.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSeidelActionPerformed
+
+    private void btnJacobiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJacobiActionPerformed
+        // TODO add your handling code here:
+        Jacobi j = new Jacobi();
+        j.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnJacobiActionPerformed
 
     /**
      * @param args the command line arguments
