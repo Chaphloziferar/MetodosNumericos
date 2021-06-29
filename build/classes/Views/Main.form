@@ -83,11 +83,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Metodo Jacobi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnJacobiActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSeidel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Metodo Gaus-Seidel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeidelActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
