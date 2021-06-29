@@ -26,6 +26,8 @@ public class EquationRootsOpen extends javax.swing.JFrame {
 
         tb.InicializarTabla(jtSecante, headerSecante);
         tb.InicializarTabla(jtNewtonRaphson, headerNewtonRaphson);
+        
+        this.setTitle("Metodos Abiertos");
     }
 
     /**

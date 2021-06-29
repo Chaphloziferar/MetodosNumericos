@@ -26,6 +26,8 @@ public class EquationRootsClose extends javax.swing.JFrame {
 
         tb.InicializarTabla(jtBiseccion, headerBiseccion);
         tb.InicializarTabla(jtReglafalsa, headerReglaFalsa);
+        
+        this.setTitle("Metodos Cerrados");
     }
 
     /**
@@ -886,8 +888,8 @@ public class EquationRootsClose extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tbMetodos, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(tbMetodos)
+                .addGap(20, 20, 20))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
