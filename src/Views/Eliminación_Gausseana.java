@@ -336,10 +336,14 @@ public class Eliminación_Gausseana extends javax.swing.JFrame {
 
     private void BtnPrepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrepararActionPerformed
         // TODO add your handling code here:
+        if (txtOrden.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar el tamaño de la matriz", "Orden de la matriz nula", JOptionPane.WARNING_MESSAGE);
+        }else{
         startTable();
         rango = Integer.parseInt(txtOrden.getText());
         btnCalcular.setEnabled(true);
         PrepararMatrices();
+        }
     }//GEN-LAST:event_BtnPrepararActionPerformed
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
