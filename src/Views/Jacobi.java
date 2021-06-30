@@ -417,10 +417,14 @@ public class Jacobi extends javax.swing.JFrame {
 
     private void btnPrepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrepararActionPerformed
     
+        if (txtOrden.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar el tamaño de la matriz", "Orden de la matriz nula", JOptionPane.WARNING_MESSAGE);
+        }else{
         startTable();
         rango = Integer.parseInt(txtOrden.getText());
         btnCalcular.setEnabled(true);
         PrepararMatrices();
+        }
         
     }//GEN-LAST:event_btnPrepararActionPerformed
 
